@@ -45,6 +45,30 @@
             font-style: normal;
             font-display: swap;
         }
+
+        /* Card Deck Scroll Effect - Desktop only */
+        @media (min-width: 768px) {
+            section {
+                position: sticky;
+                top: 28px;
+            }
+
+            /* Z-index layering for card deck effect */
+            section:nth-of-type(1) { z-index: 3; }
+            section:nth-of-type(2) { z-index: 4; }
+            section:nth-of-type(3) { z-index: 5; }
+            section:nth-of-type(4) { z-index: 6; }
+            section:nth-of-type(5) { z-index: 7; }
+            section:nth-of-type(6) { z-index: 8; }
+            section:nth-of-type(7) { z-index: 9; }
+            section:nth-of-type(8) { z-index: 10; }
+            section:nth-of-type(9) { z-index: 11; }
+
+            footer {
+                position: relative;
+                z-index: 2;
+            }
+        }
     </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -79,18 +103,34 @@
         <!-- Navigation -->
         <div class="relative z-20 w-full">
             <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center py-5">
-                    <div class="flex items-center gap-3">
-                        <img src="assets/teejaro-logo.svg" alt="Teejaro" class="h-8">
-                    </div>
-                    <div class="flex gap-3 items-center">
-                        <a href="#download-section" class="hidden md:flex w-12 h-12 bg-white border-2 border-gray-200 rounded-full items-center justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                <div class="py-5">
+                    <!-- Top row: Logo and QR button -->
+                    <div class="flex justify-between items-center mb-3 md:mb-0">
+                        <div class="flex items-center gap-3">
+                            <img src="assets/teejaro-logo.svg" alt="Teejaro" class="h-8">
+                        </div>
+                        <a href="#download-section" class="flex w-12 h-12 bg-white border-2 border-gray-200 rounded-full items-center justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 md:hidden">
                             <img src="assets/mini_qr_icon.svg" alt="QR Code" class="w-5 h-5">
                         </a>
-                        <a href="#download-section" class="hidden md:block bg-gradient-to-r from-indigo-600 to-indigo-800 text-white px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                        <!-- Desktop buttons -->
+                        <div class="hidden md:flex gap-3 items-center">
+                            <a href="#download-section" class="flex w-12 h-12 bg-white border-2 border-gray-200 rounded-full items-center justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                                <img src="assets/mini_qr_icon.svg" alt="QR Code" class="w-5 h-5">
+                            </a>
+                            <a href="#download-section" class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                                Download TJR telegram app
+                            </a>
+                            <a href="#download-section" class="bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 text-white px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                                Download TJR app
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Mobile buttons stacked -->
+                    <div class="flex flex-col gap-3 md:hidden">
+                        <a href="#download-section" class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white px-6 py-3 rounded-full font-semibold text-sm text-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
                             Download TJR telegram app
                         </a>
-                        <a href="#download-section" class="bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 text-white px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                        <a href="#download-section" class="bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 text-white px-6 py-3 rounded-full font-semibold text-sm text-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
                             Download TJR app
                         </a>
                     </div>
@@ -229,7 +269,7 @@
     </section>
 
     <!-- Bank Accounts Section -->
-    <section class="py-4 lg:py-4">
+    <section class="bg-[#F9F9F9] py-4 lg:py-4 rounded-[20px] mt-4">
         <div class="w-full">
             <div class="mb-12">
                 <h2 class="text-[34px] font-extrabold text-gray-900 mb-4">MANAGE YOUR BANK ACCOUNTS</h2>
@@ -268,7 +308,7 @@
     </section>
 
     <!-- Safe Space Section -->
-    <section class="py-20 lg:py-32 rounded-[20px] mt-4 mb-4" style="background: rgba(200, 200, 200, 0.2);">
+    <section class="py-20 lg:py-32 rounded-[20px] mt-4 mb-4" style="background: linear-gradient(135deg, #F4F4F4, #F6F6F6);">
         <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="text-6xl font-extrabold bg-gradient-to-r from-purple-600 to-indigo-800 bg-clip-text text-transparent mb-8">
                 TJR
@@ -281,7 +321,7 @@
     </section>
 
     <!-- Services Section -->
-    <section id="services-section" class="bg-gray-50 py-20 lg:py-32">
+    <section id="services-section" class="bg-gray-50 py-20 lg:py-32 rounded-[20px] mt-4">
         <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-16 items-start">
                 <!-- Left Side - Main Heading -->
@@ -322,7 +362,7 @@
     </section>
 
     <!-- Download Section -->
-    <section id="download-section" class="relative py-20 lg:py-32 overflow-hidden rounded-[20px] mt-4" style="background: linear-gradient(to right, rgba(233, 233, 233, 0.2), rgba(224, 224, 224, 0.2));">
+    <section id="download-section" class="relative py-20 lg:py-32 overflow-hidden rounded-[20px] mt-4" style="background: linear-gradient(to right, rgba(233, 233, 233, 1), rgba(224, 224, 224, 1));">
         <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-16 items-center">
                 <!-- Left Content -->
