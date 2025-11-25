@@ -1,456 +1,762 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teejaro - Virtual Card Inside Your Telegram</title>
     <style>
-        @font-face {
-            font-family: 'TT Hoves';
-            src: url('assets/fonts/TTHoves-Regular.woff2') format('woff2'),
-                 url('assets/fonts/TTHoves-Regular.woff') format('woff');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'TT Hoves';
-            src: url('assets/fonts/TTHoves-Medium.woff2') format('woff2'),
-                 url('assets/fonts/TTHoves-Medium.woff') format('woff');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'TT Hoves';
-            src: url('assets/fonts/TTHoves-DemiBold.woff2') format('woff2'),
-                 url('assets/fonts/TTHoves-DemiBold.woff') format('woff');
-            font-weight: 600;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'TT Hoves';
-            src: url('assets/fonts/TTHoves-Bold.woff2') format('woff2'),
-                 url('assets/fonts/TTHoves-Bold.woff') format('woff');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: 'TT Hoves';
-            src: url('assets/fonts/TTHoves-ExtraBold.woff2') format('woff2'),
-                 url('assets/fonts/TTHoves-ExtraBold.woff') format('woff');
-            font-weight: 800;
-            font-style: normal;
-            font-display: swap;
+      @font-face {
+        font-family: "TT Hoves";
+        src: url("assets/fonts/TTHoves-Regular.woff2") format("woff2"),
+          url("assets/fonts/TTHoves-Regular.woff") format("woff");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "TT Hoves";
+        src: url("assets/fonts/TTHoves-Medium.woff2") format("woff2"),
+          url("assets/fonts/TTHoves-Medium.woff") format("woff");
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "TT Hoves";
+        src: url("assets/fonts/TTHoves-DemiBold.woff2") format("woff2"),
+          url("assets/fonts/TTHoves-DemiBold.woff") format("woff");
+        font-weight: 600;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "TT Hoves";
+        src: url("assets/fonts/TTHoves-Bold.woff2") format("woff2"),
+          url("assets/fonts/TTHoves-Bold.woff") format("woff");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "TT Hoves";
+        src: url("assets/fonts/TTHoves-ExtraBold.woff2") format("woff2"),
+          url("assets/fonts/TTHoves-ExtraBold.woff") format("woff");
+        font-weight: 800;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      /* Card Deck Scroll Effect - Desktop only */
+      @media (min-width: 768px) {
+        section {
+          position: sticky;
+          top: 28px;
         }
 
-        /* Card Deck Scroll Effect - Desktop only */
-        @media (min-width: 768px) {
-            section {
-                position: sticky;
-                top: 28px;
-            }
-
-            /* Z-index layering for card deck effect */
-            section:nth-of-type(1) { z-index: 3; }
-            section:nth-of-type(2) { z-index: 4; }
-            section:nth-of-type(3) { z-index: 5; }
-            section:nth-of-type(4) { z-index: 6; }
-            section:nth-of-type(5) { z-index: 7; }
-            section:nth-of-type(6) { z-index: 8; }
-            section:nth-of-type(7) { z-index: 9; }
-            section:nth-of-type(8) { z-index: 10; }
-            section:nth-of-type(9) { z-index: 11; }
-
-            footer {
-                position: relative;
-                z-index: 2;
-            }
+        /* Z-index layering for card deck effect */
+        section:nth-of-type(1) {
+          z-index: 3;
         }
+        section:nth-of-type(2) {
+          z-index: 4;
+        }
+        section:nth-of-type(3) {
+          z-index: 5;
+        }
+        section:nth-of-type(4) {
+          z-index: 6;
+        }
+        section:nth-of-type(5) {
+          z-index: 7;
+        }
+        section:nth-of-type(6) {
+          z-index: 8;
+        }
+        section:nth-of-type(7) {
+          z-index: 9;
+        }
+        section:nth-of-type(8) {
+          z-index: 10;
+        }
+        section:nth-of-type(9) {
+          z-index: 11;
+        }
+
+        footer {
+          position: relative;
+          z-index: 2;
+        }
+      }
     </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#4A5FE8',
-                        secondary: '#FF6B6B',
-                        dark: '#1a1a2e',
-                    },
-                    fontFamily: {
-                        sans: ['TT Hoves', 'sans-serif'],
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' }
-                        }
-                    },
-                    animation: {
-                        fadeInUp: 'fadeInUp 0.6s ease-out forwards'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#4A5FE8",
+              secondary: "#FF6B6B",
+              dark: "#1a1a2e",
+            },
+            fontFamily: {
+              sans: ["TT Hoves", "sans-serif"],
+            },
+            keyframes: {
+              fadeInUp: {
+                "0%": { opacity: "0", transform: "translateY(20px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+            },
+            animation: {
+              fadeInUp: "fadeInUp 0.6s ease-out forwards",
+            },
+          },
+        },
+      };
     </script>
-</head>
-<body class="font-sans antialiased bg-[#F9F9F9] p-7">
+  </head>
+  <body class="font-sans antialiased bg-[#F9F9F9] p-7">
     <!-- Hero Section -->
-    <section class="relative overflow-hidden flex flex-col rounded-[20px]" style="background: linear-gradient(to right, rgba(196, 228, 201, 0.2), rgba(184, 179, 223, 0.2));">
-        <!-- Navigation -->
-        <div class="relative z-20 w-full">
-            <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="py-5">
-                    <!-- Top row: Logo and QR button -->
-                    <div class="flex justify-between items-center mb-3 md:mb-0">
-                        <div class="flex items-center gap-3">
-                            <img src="assets/teejaro-logo.svg" alt="Teejaro" class="h-8">
-                        </div>
-                        <a href="#download-section" class="flex w-12 h-12 bg-white border-2 border-gray-200 rounded-full items-center justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 md:hidden">
-                            <img src="assets/mini_qr_icon.svg" alt="QR Code" class="w-5 h-5">
-                        </a>
-                        <!-- Desktop buttons -->
-                        <div class="hidden md:flex gap-3 items-center">
-                            <a href="#download-section" class="flex w-12 h-12 bg-white border-2 border-gray-200 rounded-full items-center justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                                <img src="assets/mini_qr_icon.svg" alt="QR Code" class="w-5 h-5">
-                            </a>
-                            <a href="#download-section" class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                                Download TJR telegram app
-                            </a>
-                            <a href="#download-section" class="bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 text-white px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                                Download TJR app
-                            </a>
-                        </div>
-                    </div>
-                    <!-- Mobile buttons stacked -->
-                    <div class="flex flex-col gap-3 md:hidden">
-                        <a href="#download-section" class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white px-6 py-3 rounded-full font-semibold text-sm text-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                            Download TJR telegram app
-                        </a>
-                        <a href="#download-section" class="bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 text-white px-6 py-3 rounded-full font-semibold text-sm text-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-                            Download TJR app
-                        </a>
-                    </div>
-                </div>
+    <section
+      class="relative overflow-hidden flex flex-col rounded-[20px]"
+      style="
+        background: linear-gradient(
+          to right,
+          rgba(196, 228, 201, 0.2),
+          rgba(184, 179, 223, 0.2)
+        );
+      "
+    >
+      <!-- Navigation -->
+      <div class="relative z-20 w-full">
+        <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="py-5">
+            <!-- Top row: Logo and QR button -->
+            <div class="flex justify-between items-center mb-3 md:mb-0">
+              <div class="flex items-center gap-3">
+                <img src="assets/teejaro-logo.svg" alt="Teejaro" class="h-8" />
+              </div>
+              <a
+                href="#download-section"
+                class="flex w-12 h-12 bg-white border-2 border-gray-200 rounded-full items-center justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 md:hidden"
+              >
+                <img
+                  src="assets/mini_qr_icon.svg"
+                  alt="QR Code"
+                  class="w-5 h-5"
+                />
+              </a>
+              <!-- Desktop buttons -->
+              <div class="hidden md:flex gap-3 items-center">
+                <a
+                  href="#download-section"
+                  class="flex w-12 h-12 bg-white border-2 border-gray-200 rounded-full items-center justify-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  <img
+                    src="assets/mini_qr_icon.svg"
+                    alt="QR Code"
+                    class="w-5 h-5"
+                  />
+                </a>
+                <a
+                  href="#download-section"
+                  class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  Download TJR telegram app
+                </a>
+                <a
+                  href="#download-section"
+                  class="bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 text-white px-6 py-3 rounded-full font-semibold text-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                >
+                  Download TJR app
+                </a>
+              </div>
             </div>
-        </div>
-
-        <!-- Hero Content -->
-        <div class="flex-grow flex items-center relative z-10">
-            <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-20 w-full">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                <!-- Left Content -->
-                <div class="space-y-8">
-                    <h1 class="text-4xl lg:text-5xl xl:text-6xl font-black leading-[1.1] text-gray-900 tracking-tight">
-                        VIRTUAL CARD<br>
-                        INSIDE YOUR TELEGRAM
-                    </h1>
-                    <div class="space-y-2">
-                        <p class="text-lg lg:text-xl text-gray-900">
-                            Top up with crypto - <span class="font-bold">forget the borders and spend anywhere you want!</span>
-                        </p>
-                        <p class="text-base lg:text-lg text-gray-700">
-                            Fast, seamless, and limitless shopping - all at your fingertips.
-                        </p>
-                    </div>
-                    <div>
-                        <img src="assets/tjr.svg" alt="TJR" class="h-10 opacity-60">
-                    </div>
-                </div>
-
-                <!-- Right Content - Phone Mockups -->
-                <div class="flex justify-center relative overflow-hidden" style="background-image: url('assets/bg-wave-hero.png'); background-size: 110%; background-position: 40% center; background-repeat: no-repeat; opacity: 0.9;">
-                    <div class="relative -ml-8 lg:-ml-12">
-                        <!-- Main Phone (Left) -->
-                        <div class="relative z-10">
-                            <img src="assets/phone_screen.png" alt="Phone Screen" class="w-48 lg:w-64 drop-shadow-2xl">
-                        </div>
-                        <!-- Secondary Phone (Right, Overlapping) -->
-                        <div class="absolute -right-8 top-12 lg:-right-16 lg:top-16 z-20">
-                            <img src="assets/phone_screen_small.png" alt="Phone Screen" class="w-40 lg:w-48 drop-shadow-2xl">
-                        </div>
-                    </div>
-                </div>
+            <!-- Mobile buttons stacked -->
+            <div class="flex flex-col gap-3 md:hidden">
+              <a
+                href="#download-section"
+                class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white px-6 py-3 rounded-full font-semibold text-sm text-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+              >
+                Download TJR telegram app
+              </a>
+              <a
+                href="#download-section"
+                class="bg-gradient-to-r from-cyan-400 via-blue-500 to-orange-400 text-white px-6 py-3 rounded-full font-semibold text-sm text-center hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+              >
+                Download TJR app
+              </a>
             </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Hero Content -->
+      <div class="flex-grow flex items-center relative z-10">
+        <div
+          class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-20 w-full"
+        >
+          <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <!-- Left Content -->
+            <div class="space-y-8">
+              <h1
+                class="text-3xl lg:text-4xl xl:text-5xl font-black leading-[1.1] text-gray-900 tracking-tight"
+              >
+                VIRTUAL CARD<br />
+                INSIDE YOUR TELEGRAM
+              </h1>
+              <div class="space-y-2">
+                <p class="text-lg lg:text-xl text-gray-900 max-w-[80%]">
+                  Top up with crypto -
+                  <span class="font-bold"
+                    >forget the borders and spend anywhere you want!</span
+                  >
+                  Fast, seamless, and limitless shopping - all at your
+                  fingertips.
+                </p>
+              </div>
+              <div>
+                <img src="assets/tjr.svg" alt="TJR" class="h-10 opacity-60" />
+              </div>
+            </div>
+
+            <!-- Right Content - Phone Mockups -->
+            <div class="flex justify-center items-center overflow-hidden">
+              <img
+                src="/assets/bg-wave-hero.png"
+                alt="#"
+                class="absolute lg:top-1/2 lg:right-30% lg:-translate-y-1/2 lg:w-[35%] sm:w-[100%]"
+              />
+              <div class="relative -ml-8 lg:-ml-12">
+                <!-- Main Phone (Left) -->
+                <div class="relative z-10">
+                  <img
+                    src="assets/phone_screen.png"
+                    alt="Phone Screen"
+                    class="w-48 lg:w-64"
+                  />
+                </div>
+                <!-- Secondary Phone (Right, Overlapping) -->
+                <div
+                  class="absolute -right-8 top-12 lg:-right-16 lg:top-16 z-20"
+                >
+                  <img
+                    src="assets/phone_screen_small.png"
+                    alt="Phone Screen"
+                    class="w-40 lg:w-48"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- About Section -->
-    <section class="bg-[#FFFFFF] py-20 lg:py-6 rounded-[20px] mt-4">
-        <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-3 gap-12">
-                <div>
-                    <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900">WHO WE ARE</h2>
-                </div>
-                <div class="lg:col-span-2">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6">ABOUT TEEJARO</h3>
-                    <p class="text-gray-600 leading-relaxed text-lg">
-                        To help our users about the about card list you can receive from client. It shows each card management FAQ page. If you want to know how to manage virtual card or pay for the credit card? No doubt this app is newly told and the payment service under the Tajikistan Money Regulators (FMR) #TJR-39-8042 and is registered with the Financial Conduct Authority. (FCA) #TA-92-840. The regulations were made under the Electronic Money Regulations 2011 (FMR #TA-92-840) and is a member of the Money Laundering Supervision by FCA UK.
-                    </p>
-                </div>
-            </div>
+    <section class="py-20 lg:py-6 rounded-[20px] mt-12">
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-3 gap-12">
+          <div>
+            <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900">
+              WHO WE ARE
+            </h2>
+          </div>
+          <div class="lg:col-span-2">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">ABOUT TEEJARO</h3>
+            <p class="text-gray-600 leading-relaxed text-lg">
+              To help our users about the about card list you can receive from
+              client. It shows each card management FAQ page. If you want to
+              know how to manage virtual card or pay for the credit card? No
+              doubt this app is newly told and the payment service under the
+              Tajikistan Money Regulators (FMR) #TJR-39-8042 and is registered
+              with the Financial Conduct Authority. (FCA) #TA-92-840. The
+              regulations were made under the Electronic Money Regulations 2011
+              (FMR #TA-92-840) and is a member of the Money Laundering
+              Supervision by FCA UK.
+            </p>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Features Section -->
     <section class="bg-gray-50 mt-4">
-        <div class="max-w-[1360px] mx-auto">
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-                    <div class="h-[500px] relative overflow-hidden">
-                        <img src="assets/about-section-img1.png" alt="Boost your savings" class="w-full h-full object-cover">
-                        <div class="absolute top-0 left-0 right-0 p-8">
-                            <h3 class="text-2xl font-bold text-white mb-3">Boost your savings</h3>
-                            <p class="text-white/90 leading-relaxed">Open an account and earn up to <span class="font-bold">16% annually</span> on your digital assets.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Feature 2 -->
-                <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-                    <div class="h-[500px] relative overflow-hidden">
-                        <img src="assets/about-section-img2.jpg" alt="Manage your assets" class="w-full h-full object-cover">
-                        <div class="absolute top-0 left-0 right-0 p-8">
-                            <h3 class="text-2xl font-bold text-white mb-3">Manage your assets</h3>
-                            <p class="text-white/90 leading-relaxed">Categorise spending and keep track of your digital wallet</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-                    <div class="h-[500px] relative overflow-hidden">
-                        <img src="assets/about-section-img3.jpg" alt="Spend freely, anywhere" class="w-full h-full object-cover">
-                        <div class="absolute top-0 left-0 right-0 p-8">
-                            <h3 class="text-2xl font-bold text-white mb-3">Spend freely, anywhere</h3>
-                            <p class="text-white/90 leading-relaxed">Shop cashless wherever you want, with No fees anywhere you choose</p>
-                        </div>
-                    </div>
-                </div>
+      <div class="max-w-[1360px] mx-auto">
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div
+            class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          >
+            <div class="h-[500px] relative overflow-hidden">
+              <img
+                src="assets/about-section-img1.png"
+                alt="Boost your savings"
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute top-0 left-0 right-0 p-8">
+                <h3 class="text-2xl font-bold text-white mb-3">
+                  Boost your savings
+                </h3>
+                <p class="text-white/90 leading-relaxed">
+                  Open an account and earn up to
+                  <span class="font-bold">16% annually</span> on your digital
+                  assets.
+                </p>
+              </div>
             </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          >
+            <div class="h-[500px] relative overflow-hidden">
+              <img
+                src="assets/about-section-img2.jpg"
+                alt="Manage your assets"
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute top-0 left-0 right-0 p-8">
+                <h3 class="text-2xl font-bold text-white mb-3">
+                  Manage your assets
+                </h3>
+                <p class="text-white/90 leading-relaxed">
+                  Categorise spending and keep track of your digital wallet
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          >
+            <div class="h-[500px] relative overflow-hidden">
+              <img
+                src="assets/about-section-img3.jpg"
+                alt="Spend freely, anywhere"
+                class="w-full h-full object-cover"
+              />
+              <div class="absolute top-0 left-0 right-0 p-8">
+                <h3 class="text-2xl font-bold text-white mb-3">
+                  Spend freely, anywhere
+                </h3>
+                <p class="text-white/90 leading-relaxed">
+                  Shop cashless wherever you want, with No fees anywhere you
+                  choose
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Virtual Card Section 2 -->
-    <section class="relative bg-white py-20 lg:py-32 rounded-[20px] overflow-hidden mt-4">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 z-0">
-            <img src="assets/union.svg" alt="" class="w-full h-full object-cover opacity-10">
-        </div>
-        <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <div class="space-y-8 text-right">
-                    <h2 class="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-gray-900 leading-tight">
-                        VIRTUAL CARD<br>
-                        INSIDE YOUR TELEGRAM
-                    </h2>
-                    <p class="text-base lg:text-lg text-gray-900 leading-relaxed">
-                        Top up with crypto - <span class="font-bold">forget the borders and spend anywhere you want!</span> Fast, seamless, and limitless shopping - all at your fingertips.
-                    </p>
-                </div>
-                <div class="flex justify-center relative">
-                    <div class="relative">
-                        <img src="assets/phone_screen.png" alt="Virtual Card App Interface" class="w-56 lg:w-72 drop-shadow-2xl">
-                        <!-- Crypto icons on the left -->
-                        <img src="assets/btc.svg" alt="Bitcoin" class="absolute -left-4 top-24 w-14 h-14 animate-bounce" style="animation-delay: 0s;">
-                        <img src="assets/eth.svg" alt="Ethereum" class="absolute -left-20 bottom-28 w-16 h-16 animate-bounce" style="animation-delay: 0.2s;">
-                        <!-- Crypto icons on the right -->
-                        <img src="assets/bnb.svg" alt="BNB" class="absolute -right-8 top-32 w-14 h-14 animate-bounce" style="animation-delay: 0.4s;">
-                        <img src="assets/trx.svg" alt="Tron" class="absolute -right-10 bottom-10 w-16 h-16 animate-bounce" style="animation-delay: 0.6s;">
-                    </div>
-                </div>
+    <section
+      class="relative bg-white py-20 lg:py-32 rounded-[20px] overflow-hidden mt-4"
+    >
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 z-0">
+        <img
+          src="assets/union.svg"
+          alt=""
+          class="w-full h-full object-cover opacity-10"
+        />
+      </div>
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div class="space-y-8 text-right">
+            <h2
+              class="text-3xl lg:text-4xl xl:text-5xl font-extrabold text-gray-900 leading-tight"
+            >
+              VIRTUAL CARD<br />
+              INSIDE YOUR TELEGRAM
+            </h2>
+            <p class="text-base lg:text-lg text-gray-900 leading-relaxed">
+              Top up with crypto -
+              <span class="font-bold"
+                >forget the borders and spend anywhere you want!</span
+              >
+              Fast, seamless, and limitless shopping - all at your fingertips.
+            </p>
+          </div>
+          <div class="flex justify-center relative">
+            <div class="relative">
+              <img
+                src="assets/phone_screen.png"
+                alt="Virtual Card App Interface"
+                class="w-56 lg:w-72 drop-shadow-2xl"
+              />
+              <!-- Crypto icons on the left -->
+              <img
+                src="assets/btc.svg"
+                alt="Bitcoin"
+                class="absolute -left-4 top-24 w-14 h-14 animate-bounce"
+                style="animation-delay: 0s"
+              />
+              <img
+                src="assets/eth.svg"
+                alt="Ethereum"
+                class="absolute -left-20 bottom-28 w-16 h-16 animate-bounce"
+                style="animation-delay: 0.2s"
+              />
+              <!-- Crypto icons on the right -->
+              <img
+                src="assets/bnb.svg"
+                alt="BNB"
+                class="absolute -right-8 top-32 w-14 h-14 animate-bounce"
+                style="animation-delay: 0.4s"
+              />
+              <img
+                src="assets/trx.svg"
+                alt="Tron"
+                class="absolute -right-10 bottom-10 w-16 h-16 animate-bounce"
+                style="animation-delay: 0.6s"
+              />
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Bank Accounts Section -->
     <section class="bg-[#F9F9F9] py-4 lg:py-4 rounded-[20px] mt-4">
-        <div class="w-full">
-            <div class="mb-12">
-                <h2 class="text-[34px] font-extrabold text-gray-900 mb-4">MANAGE YOUR BANK ACCOUNTS</h2>
-                <p class="text-[16px] text-gray-900 leading-relaxed">
-                    Top up with crypto - <span class="font-bold">forget the borders and spend anywhere you want!</span> Fast, seamless, and limitless shopping - all at your fingertips.
-                </p>
-            </div>
-            <div class="flex flex-col lg:flex-row gap-8 items-stretch w-full">
-                <!-- First Component - Phone with User Avatars -->
-                <div class="w-full lg:w-[30%] bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl p-8 pb-0 lg:p-12 lg:pb-0 h-[480px] flex flex-col">
-                    <div class="mb-2">
-                        <img src="assets/users_avatars.svg" alt="Global Users" class="h-12">
-                    </div>
-                    <h2 class="text-sm lg:text-sm font-extrabold text-gray-900 mb-4">MANAGE YOUR BANK ACCOUNTS</h2>
-                    <div class="flex justify-center flex-grow items-end overflow-hidden">
-                        <img src="assets/phone_screen.png" alt="Bank Account Interface" class="w-48 lg:w-56 drop-shadow-2xl object-cover object-top h-full">
-                    </div>
-                </div>
-
-                <!-- Second Component - Image with Text Overlay -->
-                <div class="w-full lg:flex-1 relative rounded-3xl overflow-hidden h-[480px]">
-                    <img src="assets/mng-bank-accounts-img.jpg" alt="Manage Bank Accounts" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-8 lg:p-12 text-white">
-                        <div class="mb-4">
-                            <img src="assets/tjr.svg" alt="TJR" class="h-10 mb-4">
-                        </div>
-                        <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">MANAGE YOUR BANK ACCOUNTS</h2>
-                        <p class="text-lg leading-relaxed">
-                            Top up with crypto - <span class="font-bold">forget the borders and spend anywhere you want!</span> Fast, seamless, and limitless shopping - all at your fingertips.
-                        </p>
-                    </div>
-                </div>
-            </div>
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-12">
+          <h2 class="text-[34px] font-extrabold text-gray-900 mb-4">
+            MANAGE YOUR BANK ACCOUNTS
+          </h2>
+          <p class="text-[16px] text-gray-900 leading-relaxed">
+            Top up with crypto -
+            <span class="font-bold"
+              >forget the borders and spend anywhere you want!</span
+            >
+            Fast, seamless, and limitless shopping - all at your fingertips.
+          </p>
         </div>
+        <div class="flex flex-col lg:flex-row gap-8 items-stretch w-full">
+          <!-- First Component - Phone with User Avatars -->
+          <div
+            class="w-full lg:w-[30%] bg-gradient-to-br from-purple-100 to-blue-100 rounded-3xl p-8 pb-0 lg:p-12 lg:pb-0 h-[480px] flex flex-col"
+          >
+            <div class="mb-2 flex items-center justify-center">
+              <img
+                src="assets/users_avatars.svg"
+                alt="Global Users"
+                class="h-12"
+              />
+            </div>
+            <h2
+              class="text-sm lg:text-sm font-extrabold text-gray-900 mb-4 text-center"
+            >
+              MANAGE YOUR BANK ACCOUNTS
+            </h2>
+            <div
+              class="flex justify-center flex-grow items-end overflow-hidden"
+            >
+              <img
+                src="assets/phone_screen.png"
+                alt="Bank Account Interface"
+                class="w-48 lg:w-56 drop-shadow-2xl object-cover object-top h-full"
+              />
+            </div>
+          </div>
+
+          <!-- Second Component - Image with Text Overlay -->
+          <div
+            class="w-full lg:flex-1 relative rounded-3xl overflow-hidden h-[480px]"
+          >
+            <img
+              src="assets/mng-bank-accounts-img.jpg"
+              alt="Manage Bank Accounts"
+              class="w-full h-full object-cover"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+            ></div>
+            <div
+              class="absolute bottom-0 left-0 right-0 p-8 lg:p-12 text-white"
+            >
+              <div class="mb-4">
+                <img src="assets/tjr.svg" alt="TJR" class="h-10 mb-4" />
+              </div>
+              <h2 class="text-3xl lg:text-4xl font-extrabold mb-4">
+                MANAGE YOUR BANK ACCOUNTS
+              </h2>
+              <p class="text-lg leading-relaxed">
+                Top up with crypto -
+                <span class="font-bold"
+                  >forget the borders and spend anywhere you want!</span
+                >
+                Fast, seamless, and limitless shopping - all at your fingertips.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Safe Space Section -->
-    <section class="py-20 lg:py-32 rounded-[20px] mt-4 mb-4" style="background: linear-gradient(135deg, #F4F4F4, #F6F6F6);">
-        <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="text-6xl font-extrabold bg-gradient-to-r from-purple-600 to-indigo-800 bg-clip-text text-transparent mb-8">
-                TJR
-            </div>
-            <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6">SEND MONEY'S SAFE SPACE</h2>
-            <p class="text-lg text-gray-600 leading-relaxed">
-                With Real id Account you're receiving a message of crypto realities - letting you practice anywhere local currency and keep offline safeguards help protect every account. 24/7
-            </p>
+    <section
+      class="py-20 lg:py-32 rounded-[20px] mt-4 mb-4"
+      style="background: linear-gradient(135deg, #f4f4f4, #f6f6f6)"
+    >
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div
+          class="text-6xl font-extrabold bg-gradient-to-r from-purple-600 to-indigo-800 bg-clip-text text-transparent mb-8 flex items-center justify-center"
+        >
+          <img src="/assets/SEND_MONEY'S_SAFE_SPACE.svg" alt="#" />
         </div>
+        <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6">
+          SEND MONEY'S SAFE SPACE
+        </h2>
+        <p class="text-lg text-gray-600 leading-relaxed">
+          With Real id Account you're receiving a message of crypto realities -
+          letting you practice anywhere local currency and keep offline
+          safeguards help protect every account. 24/7
+        </p>
+      </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services-section" class="bg-gray-50 py-20 lg:py-32 rounded-[20px] mt-4">
-        <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-start">
-                <!-- Left Side - Main Heading -->
-                <div class="service-animate opacity-0" data-delay="0.1">
-                    <h2 class="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
-                        FUND YOUR ACCOUNT EFFORTLESSLY.
-                    </h2>
-                </div>
+    <section
+      id="services-section"
+      class="bg-gray-50 py-20 lg:py-32 rounded-[20px] mt-4"
+    >
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
+          <!-- Left Side - Main Heading -->
+          <div class="service-animate opacity-0" data-delay="0.1">
+            <h2
+              class="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight"
+            >
+              FUND YOUR ACCOUNT EFFORTLESSLY.
+            </h2>
+          </div>
 
-                <!-- Right Side - Service Items -->
-                <div class="space-y-12">
-                    <!-- Service 1 -->
-                    <div class="service-animate opacity-0" data-delay="0.2">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">CRYPTO-FRIENDLY BANK TRANSFERS</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            Your personal USD, EUR, and GBP accounts on Nexo help you prevent blocked or delayed transactions that banks can impose on third-party transfers.
-                        </p>
-                    </div>
-
-                    <!-- Service 2 -->
-                    <div class="service-animate opacity-0" data-delay="0.4">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">SEAMLESS CRYPTO TRANSFERS</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            Receive crypto from external platforms or wallets across 20+ blockchain networks like Ethereum, Solana, and Tron.
-                        </p>
-                    </div>
-
-                    <!-- Service 3 -->
-                    <div class="service-animate opacity-0" data-delay="0.6">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">INSTANT AND LOCAL PAYMENT SOLUTIONS</h3>
-                        <p class="text-gray-600 leading-relaxed">
-                            Choose between instant card payments with Visa, Mastercard, Apple Pay, Google Pay or popular regional payment methods that work best for you.
-                        </p>
-                    </div>
-                </div>
+          <!-- Right Side - Service Items -->
+          <div class="space-y-12">
+            <!-- Service 1 -->
+            <div class="service-animate opacity-0" data-delay="0.2">
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                CRYPTO-FRIENDLY BANK TRANSFERS
+              </h3>
+              <p class="text-gray-600 leading-relaxed">
+                Your personal USD, EUR, and GBP accounts on Nexo help you
+                prevent blocked or delayed transactions that banks can impose on
+                third-party transfers.
+              </p>
             </div>
+
+            <!-- Service 2 -->
+            <div class="service-animate opacity-0" data-delay="0.4">
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                SEAMLESS CRYPTO TRANSFERS
+              </h3>
+              <p class="text-gray-600 leading-relaxed">
+                Receive crypto from external platforms or wallets across 20+
+                blockchain networks like Ethereum, Solana, and Tron.
+              </p>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-animate opacity-0" data-delay="0.6">
+              <h3 class="text-2xl font-bold text-gray-900 mb-4">
+                INSTANT AND LOCAL PAYMENT SOLUTIONS
+              </h3>
+              <p class="text-gray-600 leading-relaxed">
+                Choose between instant card payments with Visa, Mastercard,
+                Apple Pay, Google Pay or popular regional payment methods that
+                work best for you.
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Download Section -->
-    <section id="download-section" class="relative py-20 lg:py-32 overflow-hidden rounded-[20px] mt-4" style="background: linear-gradient(to right, rgba(233, 233, 233, 1), rgba(224, 224, 224, 1));">
-        <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                <!-- Left Content -->
-                <div>
-                    <h2 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-6 text-gray-900">
-                        DOWNLOAD THE <span class="bg-gradient-to-r from-purple-600 to-indigo-800 text-white px-4 py-1 rounded-lg inline-block">TJR</span> TEEJARO APP ON YOUR MOBILE DEVICE.
-                    </h2>
-                    <p class="text-lg text-gray-700 mb-10 leading-relaxed">
-                        To use the Teejaro - forget the borders and spend anywhere you want! Fast, seamless, and limitless shopping - at all your fingertips
-                    </p>
-                    <div class="flex flex-row gap-6 items-start">
-                        <!-- QR Code -->
-                        <div class="w-[115px] h-[115px]">
-                            <img src="assets/qr-code.svg" alt="QR Code" class="w-full h-full">
-                        </div>
-
-                        <!-- Download Buttons -->
-                        <div class="flex flex-col gap-4">
-                            <a href="#" class="hover:scale-105 transition-transform">
-                                <img src="assets/apple-store-icon.svg" alt="Download on the App Store" class="h-12">
-                            </a>
-                            <a href="#" class="hover:scale-105 transition-transform">
-                                <img src="assets/play-market-icon.svg" alt="Get it on Google Play" class="h-12">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Content - Phone Screens -->
-                <div class="flex justify-center relative overflow-hidden" style="background-image: url('assets/download_section_bg.svg'); background-size: 110%; background-position: center; background-repeat: no-repeat; opacity: 0.9;">
-                    <img src="assets/download_phone screens.svg" alt="Teejaro App Screens" class=" drop-shadow-2xl">
-                </div>
+    <section
+      id="download-section"
+      class="relative py-20 lg:py-32 overflow-hidden rounded-[20px] mt-4"
+      style="
+        background: linear-gradient(
+          to right,
+          rgba(233, 233, 233, 1),
+          rgba(224, 224, 224, 1)
+        );
+      "
+    >
+      <div class="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <!-- Left Content -->
+          <div>
+            <div class="flex flex-wrap">
+              <h2
+                class="text-3xl lg:text-4xl font-extrabold leading-tight text-gray-900"
+              >
+                DOWNLOAD THE
+              </h2>
+              <img
+                src="/assets/Teejaro_mini_icon.svg"
+                alt="#"
+                class="mx-[10px] w-[75px]"
+              />
+              <h2
+                class="text-3xl lg:text-4xl font-extrabold leading-tight text-gray-900"
+              >
+                TEEJARO
+              </h2>
+              <h2
+                class="text-3xl lg:text-4xl font-extrabold leading-tight text-gray-900"
+              >
+                APP ON YOUR MOBILE DEVICE.
+              </h2>
             </div>
+            <p class="text-lg text-gray-700 mb-10 leading-relaxed">
+              To use the Teejaro - forget the borders and spend anywhere you
+              want! Fast, seamless, and limitless shopping - at all your
+              fingertips
+            </p>
+            <div class="flex flex-row gap-6 items-start">
+              <!-- QR Code -->
+              <div class="w-[115px] h-[115px]">
+                <img
+                  src="assets/qr-code.svg"
+                  alt="QR Code"
+                  class="w-full h-full"
+                />
+              </div>
+
+              <!-- Download Buttons -->
+              <div class="flex flex-col gap-4">
+                <a href="#" class="hover:scale-105 transition-transform">
+                  <img
+                    src="assets/apple-store-icon.svg"
+                    alt="Download on the App Store"
+                    class="h-12"
+                  />
+                </a>
+                <a href="#" class="hover:scale-105 transition-transform">
+                  <img
+                    src="assets/play-market-icon.svg"
+                    alt="Get it on Google Play"
+                    class="h-12"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Content - Phone Screens -->
+          <div
+            class="flex justify-center relative overflow-hidden"
+            style="
+              background-image: url('assets/download_section_bg.svg');
+              background-size: 110%;
+              background-position: center;
+              background-repeat: no-repeat;
+              opacity: 0.9;
+            "
+          >
+            <img
+              src="assets/download_phone screens.svg"
+              alt="Teejaro App Screens"
+              class="drop-shadow-2xl"
+            />
+          </div>
         </div>
+      </div>
     </section>
 
     <!-- Footer -->
-    <footer class=" pt-12 px-4">
-        <div class="max-w-[1360px] mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <p class="text-gray-600">&copy; 2025 — Teejaro Technology LTD</p>
-                <div class="flex gap-6">
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
-                    </a>
-                    <a href="#" class="text-gray-600 hover:text-gray-900 transition-colors">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                    </a>
-                </div>
-            </div>
+    <footer class="pt-12 px-4">
+      <div class="max-w-[1360px] mx-auto">
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          <p class="text-gray-600">&copy; 2025 — Teejaro Technology LTD</p>
+          <div class="flex gap-6">
+            <a
+              href="#"
+              class="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                />
+              </svg>
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                />
+              </svg>
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"
+                />
+              </svg>
+            </a>
+            <a
+              href="#"
+              class="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
+      </div>
     </footer>
 
     <script>
-        // Intersection Observer for Services Section Animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const animateElements = entry.target.querySelectorAll('.service-animate');
+      // Intersection Observer for Services Section Animation
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const animateElements =
+              entry.target.querySelectorAll(".service-animate");
 
-                if (entry.isIntersecting) {
-                    // Add animation when section enters viewport
-                    animateElements.forEach(el => {
-                        const delay = el.getAttribute('data-delay') || 0;
-                        el.style.animationDelay = `${delay}s`;
-                        el.classList.add('animate-fadeInUp');
-                    });
-                } else {
-                    // Remove animation when section leaves viewport
-                    animateElements.forEach(el => {
-                        el.classList.remove('animate-fadeInUp');
-                    });
-                }
-            });
-        }, {
-            threshold: 0.2 // Trigger when 20% of section is visible
-        });
-
-        // Observe the services section
-        const servicesSection = document.getElementById('services-section');
-        if (servicesSection) {
-            observer.observe(servicesSection);
+            if (entry.isIntersecting) {
+              // Add animation when section enters viewport
+              animateElements.forEach((el) => {
+                const delay = el.getAttribute("data-delay") || 0;
+                el.style.animationDelay = `${delay}s`;
+                el.classList.add("animate-fadeInUp");
+              });
+            } else {
+              // Remove animation when section leaves viewport
+              animateElements.forEach((el) => {
+                el.classList.remove("animate-fadeInUp");
+              });
+            }
+          });
+        },
+        {
+          threshold: 0.2, // Trigger when 20% of section is visible
         }
+      );
+
+      // Observe the services section
+      const servicesSection = document.getElementById("services-section");
+      if (servicesSection) {
+        observer.observe(servicesSection);
+      }
     </script>
-</body>
+  </body>
 </html>
